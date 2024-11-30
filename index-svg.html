@@ -1,43 +1,63 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="zh">
+
 <head>
   <title>Cross-Browser QRCode generator for Javascript</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  
   <script type="text/javascript" src="qrcode.min.js"></script>
+
+  <style>
+    #qrcode{
+      margin-top: 15px;
+    }
+    
+</style>
 </head>
+
 <body>
-  <p>Please type your input below, and press Enter.</p>
-    <input id="text" type="text" value="https://github.com/KeeeX/qrcodejs" style="width:80%" />
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <g id="qrcode"/>
-    </svg>
-    <script type="text/javascript">
-      var qrcode = new QRCode(document.getElementById("qrcode"), {
-        width : 200,
-        height : 200,
-        useSVG: true
-      });
+  <label>Please type your input below, and press Enter or Tab,or click on the area outside the text box.
+    <input id="text" type="text" value="https://www.wenhui.cn" placeholder="https://www.wenhui.cn" style="width:80%">
+  </label>
+  
+  <!-- 使用svg生成二维码 -->
+  <svg id="qrcode" width="200" height="200"></svg>
 
-      var inputField = document.getElementById("text");
+  <!-- 如下代码中宽度和高度无效，只得在上面一行代码中设置宽度和高度 -->
+  <script type="text/javascript">
+    const qrcode = new QRCode(document.getElementById("qrcode"), {
+      width: 200,
+      height: 200,
+      useSVG: true
+    });
 
-      function makeCode () {    
-        if (!inputField.value) {
-          inputField.focus();
-          return;
-        }
+    const inputField = document.getElementById("text");
 
-        qrcode.makeCode(inputField.value);
+    function makeCode() {
+      if (!inputField.value) {
+        inputField.focus();
+        return;
       }
 
-      makeCode();
+      qrcode.makeCode(inputField.value);
+    }
 
-      inputField.addEventListener("keydown", (e) => {
-        if (e.keyCode == 13) {
-          makeCode();
-        }
-      });
-      inputField.addEventListener("blur", makeCode);
-    </script>
-  </body>
-  </html>
+    makeCode();
+   
+    //触发方法一，按回车键
+    inputField.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      makeCode();
+    }
+    });
+
+    //触发方法二，焦点丢失（比如鼠标点文本框外）
+    inputField.addEventListener("blur", makeCode);
+
+ 
+    
+  </script>
+</body>
+
+</html>
